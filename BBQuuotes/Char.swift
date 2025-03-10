@@ -13,7 +13,7 @@ struct Char: Decodable{
     let images: [URL]
     let aliases: [String]
     let status: String
-    let portrayedby: String
+    let portrayedBy: String
     var death: Death? // Can be nil
     
     enum CodingKeys: CodingKey {
@@ -23,7 +23,7 @@ struct Char: Decodable{
         case images
         case aliases
         case status
-        case portrayedby
+        case portrayedBy
 //        case death
     }
     
@@ -35,7 +35,7 @@ struct Char: Decodable{
         self.images = try container.decode([URL].self, forKey: .images)
         self.aliases = try container.decode([String].self, forKey: .aliases)
         self.status = try container.decode(String.self, forKey: .status)
-        self.portrayedby = try container.decode(String.self, forKey: .portrayedby)
+        self.portrayedBy = try container.decode(String.self, forKey: .portrayedBy)
 
         let deathDecoder = JSONDecoder()
         deathDecoder.keyDecodingStrategy = .convertFromSnakeCase

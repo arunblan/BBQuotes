@@ -42,7 +42,7 @@ struct FetchService{
     
     func fetchCharacter(_ name: String) async throws -> Char{
         
-        let characterURL = baseURL.appending(path: "charaacters")
+        let characterURL = baseURL.appending(path: "characters")
         let fetchURL = characterURL.appending(queryItems: [URLQueryItem(name: "name", value: name)])
         
         let (data, response) = try await URLSession.shared.data(from: fetchURL)

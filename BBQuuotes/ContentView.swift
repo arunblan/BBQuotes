@@ -11,18 +11,18 @@ struct ContentView: View {
     var body: some View {
         TabView{
             Tab("Braking Bad", systemImage: "tortoise"){
-                QuoteView(show: "Braking Bad View")
+                QuoteView(show: "Breaking Bad")
                     .toolbarBackgroundVisibility(.visible, for: .tabBar)
             }
             Tab("Better Call Saul", systemImage: "briefcase"){
-                QuoteView(show: "Better Call Saul View")
+                QuoteView(show: "Better Call Saul")
                     .toolbarBackgroundVisibility(.visible, for: .tabBar)
             }
         }
-        .preferredColorScheme(.dark)
     }
 }
 
 #Preview {
     ContentView()
+        .preferredColorScheme(.dark)
 }

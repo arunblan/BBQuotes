@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct QuoteView: View {
+struct FetchView: View {
     
     let vm = ViewModel()
     let show: String
@@ -17,8 +17,7 @@ struct QuoteView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack{
-                Image(show.lowercased()
-                    .replacingOccurrences(of: " ", with: ""))
+                Image(show.removeCaseAndSpace())
                     .resizable()
                     .frame(width: geometry.size.width * 2.7, height: geometry.size.height * 1.2)
                 
@@ -30,7 +29,7 @@ struct QuoteView: View {
                             EmptyView()
                         case .fetching:
                             ProgressView()
-                        case .sucess:
+                        case .sucessQuote:
                             Text("\"\(vm.quote.quote)\"")
                                 .minimumScaleFactor(0.5)
                                 .multilineTextAlignment(.center)
@@ -63,6 +62,10 @@ struct QuoteView: View {
                             .sheet(isPresented: $showCharacterInfo){
                                 CharacterView(character: vm.character, show: show)
                             }
+                        case .sucessEpisode:
+                            VStack(alignment: .leading){
+                                EpisodeView(episode: vm.episode)
+                            }
                         case .faild(let error):
                             Text(error.localizedDescription)
                         }
@@ -70,19 +73,38 @@ struct QuoteView: View {
                         
                         Spacer()
                     }
-                    Button{
-                        Task{
-                            await vm.getData(for: show)
+                    HStack {
+                        Button{
+                            Task{
+                                await vm.getQuoteData(for: show)
+                            }
+                        }label: {
+                            Text("Get Random Quote")
+                                .font(.title3)
+                                .foregroundStyle(.white)
+                                .padding()
+                                .background(Color("\(show.removeSpaces())Button"))
+                                .clipShape(.rect(cornerRadius: 7))
+                                .shadow(color: Color("\(show.removeSpaces())Shadow") , radius: 2)
                         }
-                    }label: {
-                        Text("Get Random Quote")
-                            .font(.title)
-                            .foregroundStyle(.white)
-                            .padding()
-                            .background(Color("\(show.replacingOccurrences(of: " ", with: ""))Button"))
-                            .clipShape(.rect(cornerRadius: 7))
-                            .shadow(color: Color("\(show.replacingOccurrences(of: " ", with: ""))Shadow") , radius: 2)
+                        
+                        Spacer()
+                        
+                        Button{
+                            Task{
+                                await vm.getEpisodeData(for: show)
+                            }
+                        }label: {
+                            Text("Get Random Episode")
+                                .font(.title3)
+                                .foregroundStyle(.white)
+                                .padding()
+                                .background(Color("\(show.removeSpaces())Button"))
+                                .clipShape(.rect(cornerRadius: 7))
+                                .shadow(color: Color("\(show.removeSpaces())Shadow") , radius: 2)
+                        }
                     }
+                    .padding(.horizontal, 30)
                     Spacer(minLength: 95)
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
@@ -91,10 +113,11 @@ struct QuoteView: View {
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
         .ignoresSafeArea()
+        .toolbarBackgroundVisibility(.visible, for: .tabBar)
     }
 }
 
 #Preview {
-    QuoteView(show: "Breaking Bad")
+    FetchView(show: Constants.bbName)
         .preferredColorScheme(.dark)
 }

@@ -10,13 +10,16 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView{
-            Tab("Braking Bad", systemImage: "tortoise"){
-                QuoteView(show: "Breaking Bad")
-                    .toolbarBackgroundVisibility(.visible, for: .tabBar)
+            Tab(Constants.bbName, systemImage: "tortoise"){
+                FetchView(show: Constants.bbName)
             }
-            Tab("Better Call Saul", systemImage: "briefcase"){
-                QuoteView(show: "Better Call Saul")
-                    .toolbarBackgroundVisibility(.visible, for: .tabBar)
+            Tab(Constants.bcName, systemImage: "briefcase"){
+                FetchView(show: Constants.bcName)
+            }
+            
+            Tab(Constants.ecName, systemImage: "car"){
+                FetchView(show: Constants.ecName)
+//                    .toolbarBackgroundVisibility(.visible, for: .tabBar) move to quote View for showing in all views
             }
         }
     }
